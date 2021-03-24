@@ -1,3 +1,5 @@
+This is a solution of Megaron challange
+
 # Megaron take-home code challenge
 
 Hi,
