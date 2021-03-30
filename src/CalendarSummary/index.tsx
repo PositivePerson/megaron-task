@@ -7,9 +7,9 @@ import moment from 'moment';
 
 const CalendarSummary: React.FunctionComponent = () => {
 
-  const [data, setData] = useState<Array<Array<any>>[]>([]);
+  const [data, setData] = useState<Array<CalendarEvent[]>[]>([]);
 
-  
+
   const fetchDays = async () => {
     console.log("Start");
 
@@ -51,7 +51,7 @@ const CalendarSummary: React.FunctionComponent = () => {
   }
 
 
-  const makeLine = async (day :any, dayInfo :CalendarEvent[]) => {
+  const makeLine = async (day :moment.Moment, dayInfo :CalendarEvent[]) => {
 
     const d = day.format('YYYY-MM-DD');
     const localNumberOfEvents = dayInfo.length;
