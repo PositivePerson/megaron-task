@@ -14,14 +14,14 @@ const CalendarSummary: React.FunctionComponent = () => {
     console.log("Start");
 
     async function getDaysInOrder() {
-      for(let i = 0; i < 7; i++) {
-        const day = moment().day( i + 1 );
-      
-      let dayInfo = await getCalendarEvents( day.toDate() );
+      for (let i = 0; i < 7; i++) {
+        const day = moment().day(i + 1);
 
-      console.log(`Day ${i} Info: `, dayInfo);
+        let dayInfo = await getCalendarEvents(day.toDate());
 
-      makeLine(day, dayInfo);
+        console.log(`Day ${i} Info: `, dayInfo);
+
+        makeLine(day, dayInfo);
       }
     }
 
@@ -30,20 +30,21 @@ const CalendarSummary: React.FunctionComponent = () => {
   }
 
 
-  const sumTimeOfEvents = ( dayInfo :CalendarEvent[]) => {
+  const sumTimeOfEvents = (dayInfo: CalendarEvent[]) => {
 
     let result = 0;
     dayInfo.map((day) => {
       result += day.durationInMinutes;
+      return 0;
     })
 
     return result;
   }
 
 
-  const findLongestEvent = ( day :CalendarEvent[]) => {
+  const findLongestEvent = (day: CalendarEvent[]) => {
 
-    const theLongest = day.reduce(function(prev, current) {
+    const theLongest = day.reduce(function (prev, current) {
       return (prev.durationInMinutes > current.durationInMinutes) ? prev : current
     })
 
@@ -51,38 +52,39 @@ const CalendarSummary: React.FunctionComponent = () => {
   }
 
 
-  const makeLine = async (day :moment.Moment, dayInfo :CalendarEvent[]) => {
+  const makeLine = async (day: moment.Moment, dayInfo: CalendarEvent[]) => {
 
     const d = day.format('YYYY-MM-DD');
     const localNumberOfEvents = dayInfo.length;
-    const totalTime = sumTimeOfEvents( dayInfo );
-    const theLongestEvent = findLongestEvent( dayInfo );
+    const totalTime = sumTimeOfEvents(dayInfo);
+    const theLongestEvent = findLongestEvent(dayInfo);
 
     const result = [d, localNumberOfEvents, totalTime, theLongestEvent]
     console.log("MakeLine: ", [d, localNumberOfEvents, totalTime, theLongestEvent]);
 
-    updateData( result );
+    updateData(result);
   }
 
-  const updateData = ( line :Array<any>) => {
+  const updateData = (line: Array<any>) => {
     setData(data => [...data, line])
   }
 
 
   useEffect(() => {
     fetchDays();
+    // eslint-disable-next-line
   }, [])
 
 
   return (
     <div>
       <h2>Calendar summary</h2>
-      
-      <Grid
-  data={ data }
-  columns={['Date', 'Number of events', 'Total duration [min]', 'Longest event']} 
 
-/>
+      <Grid
+        data={data}
+        columns={['Date', 'Number of events', 'Total duration [min]', 'Longest event']}
+
+      />
 
     </div>
   );
